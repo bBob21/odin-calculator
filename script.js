@@ -5,6 +5,8 @@ let equation = {
 }
 let currentDisplayNumber = equation.num1;
 let newCalcuation = true;
+const OPERATIONS = ["+", "-", "*", "/"];
+const SPECIAL = ["clear", "sign", "percent"]
 
 function add(num1, num2){
     return num1 + num2;
@@ -51,38 +53,60 @@ function operate(num1, operator, num2){
     return answer;
 }
 
-function sign(num){
-    return -1 * num;
-}
-function percent(num){
-    return num / 100;
-}
-
 function operation(input){
-    // input is not number, isNaN() = is Not a Number
-    if (isNaN(input)){ 
+    if (input == "="){
+        operate(equation.num1, equation.operator, equation.num2);
+    }
+    else if (OPERATIONS.includes(input)){ 
         equation.operator = input;
     }
+    else if(SPECIAL.includes(input)){
+        if (input == "clear"){
+            if (!equation.operator)
+                equation.num1 = "0";
+            else 
+                equation.num2 = "0";
+        }
+        else if (input == "sign"){
+            if (!equation.operator)
+                equation.num1 *= -1;
+            else
+                equation.num2 *= -1;
+        }
+        else{ // input == "percent"
+            if (!equation.operator)
+                equation.num1 /= 100;
+            else
+                equation.num2 /= 100;
+        }
 
-    // input is number
+    }
+
     else{ 
-        // first number
         if (!equation.operator){
             if (equation.num1 == "0" || newCalcuation)
                 equation.num1 = input;
             else
                 equation.num1 = equation.num1 + input;
             newCalcuation = false;
-            currentDisplayNumber = equation.num1;
         }
-        // second number
         else{
             if (equation.num2 == "0")
                 equation.num2 = input;
             else
                 equation.num2 = equation.num2 + input;
-            currentDisplayNumber = equation.num2;
         }
-
     } 
+    updateDisplay();
 }
+
+function updateDisplay(){
+    currentDisplayNumber = !equation.operator ? equation.num1 : equation.num2;
+}
+
+let display = document.querySelector("#display");
+let buttons = document.querySelectorAll(".number, .operator, .special");
+buttons.forEach(button => button.addEventListener("click", () => {
+    operation(button.value);
+    display.textContent = currentDisplayNumber;
+}));
