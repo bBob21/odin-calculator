@@ -53,50 +53,52 @@ function operate(num1, operator, num2){
 }
 
 function operation(input){
-    if (input == "="){
-        operate(equation.num1, equation.operator, equation.num2);
-    }
-    else if (OPERATIONS.includes(input)){ 
+    if (OPERATIONS.includes(input)){ 
         equation.operator = input;
     }
-    else if(SPECIAL.includes(input)){
-        if (input == "clear"){
-            if (!equation.operator)
-                equation.num1 = "0";
-            else 
-                equation.num2 = "0";
+    else {
+        if (input == "="){
+            operate(equation.num1, equation.operator, equation.num2);
         }
-        else if (input == "sign"){
-            if (!equation.operator)
-                equation.num1 *= -1;
-            else
-                equation.num2 *= -1;
-        }
-        else{ // input == "percent"
-            if (!equation.operator)
-                equation.num1 /= 100;
-            else
-                equation.num2 /= 100;
+        else if(SPECIAL.includes(input)){
+            if (input == "clear"){
+                if (!equation.operator)
+                    equation.num1 = "0";
+                else 
+                    equation.num2 = "0";
+            }
+            else if (input == "sign"){
+                if (!equation.operator)
+                    equation.num1 *= -1;
+                else
+                    equation.num2 *= -1;
+            }
+            else{ // input == "percent"
+                if (!equation.operator)
+                    equation.num1 /= 100;
+                else
+                    equation.num2 /= 100;
+            }
+
         }
 
+        else{ 
+            if (!equation.operator){
+                if (equation.num1 == "0" || newCalcuation)
+                    equation.num1 = input;
+                else
+                    equation.num1 = equation.num1 + input;
+                newCalcuation = false;
+            }
+            else{
+                if (equation.num2 == "0")
+                    equation.num2 = input;
+                else
+                    equation.num2 = equation.num2 + input;
+            }
+        } 
+        updateDisplay();
     }
-
-    else{ 
-        if (!equation.operator){
-            if (equation.num1 == "0" || newCalcuation)
-                equation.num1 = input;
-            else
-                equation.num1 = equation.num1 + input;
-            newCalcuation = false;
-        }
-        else{
-            if (equation.num2 == "0")
-                equation.num2 = input;
-            else
-                equation.num2 = equation.num2 + input;
-        }
-    } 
-    updateDisplay();
 }
 
 function updateDisplay(){
