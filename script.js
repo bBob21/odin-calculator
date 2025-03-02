@@ -42,8 +42,7 @@ function operate(num1, operator, num2){
             answer = divide(num1, num2);
             break;
         default:
-            answer = null;
-            alert("ERROR: invalid operator");
+            answer = num1;
     }
     equation.num1 = answer;
     equation.operator = null;
