@@ -79,22 +79,23 @@ function operation(input){
                 else
                     equation.num2 /= 100;
             }
-
         }
 
-        else{ 
+        else{
             if (!equation.operator){
                 if (equation.num1 == "0" || newCalcuation)
                     equation.num1 = input;
                 else
-                    equation.num1 = equation.num1 + input;
+                    if (equation.num1.length < 10)
+                        equation.num1 = equation.num1 + input;
                 newCalcuation = false;
             }
             else{
                 if (equation.num2 == "0")
                     equation.num2 = input;
                 else
-                    equation.num2 = equation.num2 + input;
+                    if (equation.num2.length < 10)
+                        equation.num2 = equation.num2 + input;
             }
         } 
         updateDisplay();
