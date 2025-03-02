@@ -86,7 +86,7 @@ function operation(input){
                 if (equation.num1 == "0" || newCalcuation)
                     equation.num1 = input;
                 else
-                    if (equation.num1.length < 10)
+                    if (equation.num1.length < 10 && !(input == "." && equation.num1.includes(".")))
                         equation.num1 = equation.num1 + input;
                 newCalcuation = false;
             }
@@ -94,7 +94,7 @@ function operation(input){
                 if (equation.num2 == "0")
                     equation.num2 = input;
                 else
-                    if (equation.num2.length < 10)
+                    if (equation.num2.length < 10 && !(input == "." && equation.num2.includes(".")))
                         equation.num2 = equation.num2 + input;
             }
         } 
